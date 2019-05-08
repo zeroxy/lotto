@@ -1,0 +1,76 @@
+
+
+  <h1>recent result</h1>
+  <p>
+  {% for u in result.recent_correct %}
+    {{ u }},
+  {% endfor %}
+  </p>
+
+  <h1>uniform distribute</h1>
+  <h2> probability </h2>
+  <p>
+  {% for u in result.uniform.pb %}
+    {{ u }},
+  {% endfor %}
+  </p>
+  <h2> seed </h2>
+  <p>
+  {% for u in result.uniform.seed %}
+    {{ u }},
+  {% endfor %}
+  </p>
+  <h2> recommend </h2>
+  {% for row in result.uniform.recommend %}
+  <p>
+    {% for r in row %}
+      {{ r }},
+    {% endfor %}
+  </p></br>
+  {% endfor %}
+
+  <h1>triple distribute</h1>
+  <h2> probability </h2>
+  <p>
+  {% for u in result.triple.pb %}
+    {{ u }},
+  {% endfor %}
+  </p>
+  <h2> seed </h2>
+  <p>
+  {% for u in result.triple.seed %}
+    {{ u }},
+  {% endfor %}
+  </p>
+  <h2> recommend </h2>
+  {% for row in result.triple.recommend %}
+  <p>
+    {% for r in row %}
+      {{ r }},
+    {% endfor %}
+  </p></br>
+  {% endfor %}
+
+  <h1>quad distribute</h1>
+  <h2> probability </h2>
+  <p>
+  {% for u in result.quad.pb %}
+    {{ u }},
+  {% endfor %}
+  </p>
+  <h2> seed </h2>
+  <p>
+  {% for u in result.quad.seed %}
+    {{ u }},
+  {% endfor %}
+  </p>
+  <h2> recommend </h2>
+  {% for row in result.quad.recommend %}
+  <p>
+    {% for r in row %}
+      {{ r }},
+    {% endfor %}
+  </p></br>
+  {% endfor %}
+
+

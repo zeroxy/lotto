@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from Lottos import Lottos
 import numpy as np
 import json
+import os
 
 app = Flask(__name__)
 
@@ -43,7 +44,7 @@ def get_the_luck():
         'recent_correct':lottos.get_real_history(len(lottos)).tolist()
     }
     result_obj['uniform'] = {
-            'recommend':r.tolist(),
+            'recommend':r.astype(np.int16).tolist(),
             'seed':seed.tolist(),
             'pb':pb.tolist()
     }
@@ -62,7 +63,7 @@ def get_the_luck():
     pb = aug_pb(pb)
     r= lottos.recommend(pb)
     result_obj['triple'] = {
-            'recommend':r.tolist(),
+            'recommend':r.astype(np.int16).tolist(),
             'seed':seed.tolist(),
             'pb':pb.tolist()
     }
@@ -78,14 +79,17 @@ def get_the_luck():
     pb = aug_pb(pb,4)
     r= lottos.recommend(pb)
     result_obj['quad'] = {
-            'recommend':r.tolist(),
+            'recommend':r.astype(np.int16).tolist(),
             'seed':seed.tolist(),
             'pb':pb.tolist()
     }
     result_txt +=f'{r}\n'
     result_txt +=f'{pb}\n'
     result_txt +=f'{lottos.validation_history(r)}\n'
-    return jsonify({'result':result_obj})
+    print(result_txt)
+    #return jsonify({'result':result_obj})
+    return render_template('index.html',result=result_obj)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
