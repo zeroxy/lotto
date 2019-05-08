@@ -1,0 +1,5 @@
+Flask==0.12
+joblib==0.13.2
+numpy==1.13.1
+pyquery==1.4.0
+requests==2.21.0
