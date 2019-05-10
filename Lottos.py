@@ -25,7 +25,7 @@ class Lottos:
             self.lottos=np.zeros((0,45),dtype=np.int16)
             self.add_lottos=np.zeros((0,45),dtype=np.int16)
         finally:
-            self.update()
+            #self.update()
             self.create_statistic()
             
     def create_statistic(self):
@@ -117,11 +117,17 @@ class Lottos:
     def recommend(self, prob=None, count=5):
         if prob is None:
             p = np.ones((45))/45
-        result = np.zeros((count,6))
-        for i in range(count):
+        result = np.zeros((count*3,6))
+        for i in range(count*3):
             result[i] = np.sort(np.random.choice(45, 6, replace=False, p=prob)+1)
         result.astype(np.int8)
-        return result
+        uniqresult = np.unique(result, axis=0)
+        if uniqresult.shape[0]<count:
+            idxs = np.sort(np.random.choice(uniqresult.shape[0], count))
+            print(f"## warning!! unique rows:{uniqresult.shape[0]} < count:{count}")
+        else :
+            idxs = np.sort(np.random.choice(uniqresult.shape[0], count, replace=False))
+        return uniqresult[idxs]
       
     def validation_history(self, recommends):
         assert recommends is not None
