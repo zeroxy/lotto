@@ -7,7 +7,7 @@ import datetime as dayt
 from datetime import datetime as dt
 
 app = Flask(__name__)
-KST = dayt.timezone(d.timedelta(hours=9))
+KST = dayt.timezone(dayt.timedelta(hours=9))
 first_date = dt(2002,12,7,20,50,tzinfo=KST)
 
 @app.route('/')
