@@ -185,7 +185,10 @@
   <div id="proba"></div>
 
   <h3>quad distribute&nbsp;
-  <button class="btn" data-clipboard-text="quad \n{% for row in result.quad.recommend %}{% for r in row %}{{ r }} {% endfor %}\n{% endfor %}">Copy</button>
+  <button class="btn" data-clipboard-text="quad
+
+{% for row in result.quad.recommend %}{% for r in row %}{{ r }}  {% endfor %}
+{% endfor %}">Copy</button>
   </h3>
   <table class="table table-striped">
   {% for row in result.quad.recommend %}
@@ -200,7 +203,10 @@
   <hr/>
   
   <h3>triple distribute&nbsp;
-  <button class="btn" data-clipboard-text="triple \n{% for row in result.triple.recommend %}{% for r in row %}{{ r }} {% endfor %}\n{% endfor %}">Copy</button>
+  <button class="btn" data-clipboard-text="triple
+
+{% for row in result.triple.recommend %}{% for r in row %}{{ r }}  {% endfor %}
+{% endfor %}">Copy</button>
   </h3>
   <table class="table table-striped">
   {% for row in result.triple.recommend %}
@@ -215,7 +221,10 @@
   <hr/>
   
   <h3>uniform distribute&nbsp;
-  <button class="btn" data-clipboard-text="uniform \n{% for row in result.uniform.recommend %}{% for r in row %}{{ r }} {% endfor %}\n{% endfor %}">Copy</button>
+  <button class="btn" data-clipboard-text="uniform
+
+{% for row in result.uniform.recommend %}{% for r in row %}{{ r }}  {% endfor %}
+{% endfor %}">Copy</button>
   </h3>
   <table class="table table-striped">
   {% for row in result.uniform.recommend %}
