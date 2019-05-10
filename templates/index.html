@@ -166,6 +166,7 @@
 }
 </style>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 <body>
@@ -183,7 +184,9 @@
   <h3> probability </h3>
   <div id="proba"></div>
 
-  <h3>quad distribute</h3>
+  <h3>quad distribute&nbsp;
+  <button class="btn" data-clipboard-text="quad \n{% for row in result.quad.recommend %}{% for r in row %}{{ r }} {% endfor %}\n{% endfor %}">Copy</button>
+  </h3>
   <table class="table table-striped">
   {% for row in result.quad.recommend %}
   <tr>
@@ -196,7 +199,9 @@
   
   <hr/>
   
-  <h3>triple distribute</h3>
+  <h3>triple distribute&nbsp;
+  <button class="btn" data-clipboard-text="triple \n{% for row in result.triple.recommend %}{% for r in row %}{{ r }} {% endfor %}\n{% endfor %}">Copy</button>
+  </h3>
   <table class="table table-striped">
   {% for row in result.triple.recommend %}
   <tr>
@@ -209,7 +214,9 @@
   
   <hr/>
   
-  <h3>uniform distribute</h3>
+  <h3>uniform distribute&nbsp;
+  <button class="btn" data-clipboard-text="uniform \n{% for row in result.uniform.recommend %}{% for r in row %}{{ r }} {% endfor %}\n{% endfor %}">Copy</button>
+  </h3>
   <table class="table table-striped">
   {% for row in result.uniform.recommend %}
   <tr>
@@ -269,6 +276,7 @@
 	var layout = {barmode: "group",yaxis: {fixedrange: true},xaxis : {fixedrange: true}};
 	
 	Plotly.newPlot("proba", data, layout);
+        new ClipboardJS('.btn');
   </script>
 </body>
 </html>
