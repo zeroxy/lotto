@@ -182,7 +182,9 @@
   <h3> seed </h3>
   <div id="seed"></div>
   <h3> probability </h3>
-  <div id="proba"></div>
+  <div id="proba1"></div>
+  <hr/>
+  <div id="proba2"></div>
 
   <h3>quad distribute&nbsp;
   <button class="btn" data-clipboard-text="quad
@@ -281,10 +283,11 @@
 	  name:'quadra'
 	};
 
-	var data = [trace1, trace2];//, trace3];
+	var data = [trace1, trace2, trace3];
 	var layout = {barmode: "group",yaxis: {fixedrange: true},xaxis : {fixedrange: true}};
 	
-	Plotly.newPlot("proba", data, layout);
+	Plotly.newPlot("proba1", [trace1], layout);
+        Plotly.newPlot("proba2", data, layout);
         new ClipboardJS('.btn');
   </script>
 </body>
