@@ -3,8 +3,12 @@ from Lottos import Lottos
 import numpy as np
 import json
 import os
+import datetime as dayt
+from datetime import datetime as dt
 
 app = Flask(__name__)
+KST = dayt.timezone(d.timedelta(hours=9))
+first_date = dt(2002,12,7,20,50,tzinfo=KST)
 
 @app.route('/')
 def get_the_luck():
@@ -14,13 +18,15 @@ def get_the_luck():
         return pb
 
     lottos = Lottos()
-
+    gamedaydelta = dt.now(tz=KST)-first_date
+    gametimes = gamedaydelta.days//7+1
     pb, seed = lottos.get_probability()
     r= lottos.recommend(pb, 10)
     result_obj={}
     result_obj = {
         'recent_correct':lottos.get_real_history(len(lottos)).tolist(),
-		'recent_time' : len(lottos)
+	'recent_time' : len(lottos),
+	'calc_time' : gametimes
     }
     result_obj['uniform'] = {
             'recommend':r.astype(np.int16).tolist(),
