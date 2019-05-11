@@ -244,7 +244,8 @@
   <div id="bincnt1"></div>
   <div id="bincnt2"></div>
   <div id="bincnt3"></div>
-  
+  <h3> bin count mean</h3>
+  <div id="bincnt4"></div>
   <script>
     var seed = {{result.uniform.seed}};
     var seedtrace = {
@@ -308,7 +309,16 @@
     Plotly.newPlot('bincnt1', [bincount[0],bincount[1],bincount[2],bincount[3],bincount[4],bincount[5],bincount[6],bincount[7],bincount[8],bincount[9],bincount[10],bincount[11],bincount[12],bincount[13],bincount[14]], binlayout);
     Plotly.newPlot('bincnt2', [bincount[15],bincount[16],bincount[17],bincount[18],bincount[19],bincount[20],bincount[21],bincount[22],bincount[23],bincount[24],bincount[25],bincount[26],bincount[27],bincount[28],bincount[29]], binlayout);
     Plotly.newPlot('bincnt3', [bincount[30],bincount[31],bincount[32],bincount[33],bincount[34],bincount[35],bincount[36],bincount[37],bincount[38],bincount[39],bincount[40],bincount[41],bincount[42],bincount[43],bincount[44]], binlayout);
-
+    
+    bincount[45] = {
+      x: xpoints,
+      y: {{result.meanbincount}},
+      name: 'mean',
+      mode: 'lines+markers',
+      marker: {size: 8},
+      line: {width: 1}
+    };
+    Plotly.newPlot('bincnt4', [bincount[45]], binlayout);
     new ClipboardJS('.btn');
 
   </script>

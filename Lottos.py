@@ -95,10 +95,12 @@ class Lottos:
         for x in range(45):
             bincount[x] = np.bincount(self.neg_lottos[:no-1,x], minlength=70)
             probability[x] = (bincount[x,predict_seed[x]] - bincount[x,predict_seed[x]+1]) / bincount[x,predict_seed[x]]
+        tempbincnt = np.sum(bincount,axis=0)/45
+        probability = (tempbincnt[predict_seed] - tempbincnt[predict_seed+1]+0.001) / tempbincnt[predict_seed]
         probability = (probability/np.sum(probability))
         probability = probability**pb_pow
         probability = probability/np.sum(probability)
-        return probability, predict_seed, bincount
+        return probability, predict_seed, bincount, tempbincnt
 
     def get_real_history(self, no):
         assert 1< no <= self.lottos.shape[0]
