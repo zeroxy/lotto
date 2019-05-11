@@ -9,7 +9,7 @@ import pyquery
 from datetime import datetime as dt
 from time import sleep
 from joblib import Parallel, delayed, cpu_count
-np.set_printoptions(precision=8, suppress=True, linewidth=120)
+np.set_printoptions(precision=8, suppress=True, linewidth=120, threshold=np.inf)
 #np.set_printoptions()
 
 class Lottos:
@@ -27,18 +27,7 @@ class Lottos:
         finally:
             #self.update()
             self.create_statistic()
-            
-    def create_statistic(self):
-        self.neg_lottos = (1-(self.lottos)).astype(np.int16) +self.add_lottos.astype(np.int16)
-        self.tomap = np.zeros((45,70,2))
-        for i in range(1,self.neg_lottos.shape[0]):
-            self.neg_lottos[i] += self.neg_lottos[i]*self.neg_lottos[i-1]
-        for x in range(45):
-            bincnt = np.bincount(self.neg_lottos[:,x], minlength=69)
-            for y in range(len(bincnt)-1):
-                self.tomap[x,y,0] = bincnt[y]-bincnt[y+1]
-                self.tomap[x,y,1] = bincnt[y+1]
-                    
+
     def __len__(self):
         return self.lottos.shape[0]
     
@@ -89,27 +78,28 @@ class Lottos:
             print(f'\nwe had {end}. so update to {limit}. now we have {self.lottos.shape[0]} rows.')
         else:
             print('\nno update')
-        
-    def get_probability(self, no=None, history=1):
+
+    def create_statistic(self):
+        self.neg_lottos = (1-(self.lottos)).astype(np.int16) +self.add_lottos.astype(np.int16)
+        for i in range(1,self.neg_lottos.shape[0]):
+            self.neg_lottos[i] += self.neg_lottos[i]*self.neg_lottos[i-1]
+
+    def get_probability(self, no=None, pb_pow=1):
         if no is None:
             no=self.lottos.shape[0]+1
         assert 1< no <= self.lottos.shape[0]+1
-        assert history < no
+        
         probability = np.zeros(45)
-        predict_seed = self.neg_lottos[no-1-history:no-1]
-        prob_bias = (1-np.power((38/45), predict_seed[-1]))*0.03
-        #print(f'predict_seed{no} : \n{predict_seed}\n###\n{prob_bias}\n\
-        #cov : {np.cov(predict_seed)}, mean : {np.mean(predict_seed)}')
+        predict_seed = self.neg_lottos[no-2]
+        bincount = np.zeros((45,70))
         for x in range(45):
-            rate = 1.
-            for y in range(history):
-                percent = (self.tomap[x,predict_seed[y,x],0]/
-                           np.sum(self.tomap[x,predict_seed[y,x]]))
-                probability[x] += percent *rate
-                rate = rate * (1-percent)
-        #probability += prob_bias
-        return (probability/np.sum(probability)), predict_seed
-    
+            bincount[x] = np.bincount(self.neg_lottos[:no-1,x], minlength=70)
+            probability[x] = (bincount[x,predict_seed[x]] - bincount[x,predict_seed[x]+1]) / bincount[x,predict_seed[x]]
+        probability = (probability/np.sum(probability))
+        probability = probability**pb_pow
+        probability = probability/np.sum(probability)
+        return probability, predict_seed, bincount
+
     def get_real_history(self, no):
         assert 1< no <= self.lottos.shape[0]
         return np.where((self.lottos[no-1]-self.add_lottos[no-1])>0.5)[0]+1

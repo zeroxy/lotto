@@ -12,21 +12,17 @@ first_date = dt(2002,12,7,20,50,tzinfo=KST)
 
 @app.route('/')
 def get_the_luck():
-    def aug_pb(pb, pb_pow=3):
-        pb=pb**pb_pow
-        pb=pb/np.sum(pb)
-        return pb
-
     lottos = Lottos()
     gamedaydelta = dt.now(tz=KST)-first_date
     gametimes = gamedaydelta.days//7+1
-    pb, seed = lottos.get_probability()
+    pb, seed, bincount = lottos.get_probability()
     r= lottos.recommend(pb, 10)
     result_obj={}
     result_obj = {
         'recent_correct':lottos.get_real_history(len(lottos)).tolist(),
-	'recent_time' : len(lottos),
-	'calc_time' : gametimes
+        'recent_time' : len(lottos),
+        'calc_time' : gametimes, 
+        'bincount'  : enumerate(bincount.astype(np.int16).tolist())
     }
     result_obj['uniform'] = {
             'recommend':r.astype(np.int16).tolist(),
@@ -43,8 +39,7 @@ def get_the_luck():
 
     result_txt +="\n\n===================\n\n"
 
-    pb, seed = lottos.get_probability()
-    pb = aug_pb(pb,3)
+    pb, seed, _ = lottos.get_probability(pb_pow=3)
     r= lottos.recommend(pb, 10)
     result_obj['triple'] = {
             'recommend':r.astype(np.int16).tolist(),
@@ -58,8 +53,7 @@ def get_the_luck():
 
     result_txt +="\n\n===================\n\n"
 
-    pb, seed = lottos.get_probability()
-    pb = aug_pb(pb,4)
+    pb, seed, _ = lottos.get_probability(pb_pow=4)
     r= lottos.recommend(pb, 10)
     result_obj['quad'] = {
             'recommend':r.astype(np.int16).tolist(),
