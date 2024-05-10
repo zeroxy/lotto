@@ -2,7 +2,7 @@ name: GithubActionTest
 
 on:
   schedule:
-    - cron: '2 21 * * 0'
+    - cron: '*/5 * * * *'
 
 jobs:
   crawl:
@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests PyGithub==1.51 numpy
+        pip install requests PyGithub==1.51 numpy joblib
 
     - name: Crawl webpage and save to file
       run: python get_luck.py
