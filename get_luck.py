@@ -1,3 +1,5 @@
+from github_utils import get_github_repo, upload_github_issue
+
 import numpy as np
 np.set_printoptions(precision=4)
 np.set_printoptions(formatter={'int':lambda x : f'{x: 3}'})
@@ -5,16 +7,22 @@ np.set_printoptions(formatter={'int':lambda x : f'{x: 3}'})
 import urllib.request as httpcl
 import json
 from datetime import date
+import os
 from joblib import Parallel, delayed, cpu_count
 cpucnt = cpu_count()
 startdate = date(2002,12,7)
 enddate = date.today()
 dday = (enddate - startdate).days
-print(cpucnt, dday, dday//7)
+
+result_md_table = ""
+
+result_md_table += f'{cpucnt}, {dday}, {dday//7)}\n'
 lasttime = dday//7 +2
 
 starttime = 1
 starttime = lasttime-12
+
+issue_title = f'{lasttime} 회차 '
 
 games = 5
 
@@ -38,7 +46,7 @@ crawlNo = multipool(poolfn(x) for x in range(starttime, lasttime) )
 
 rstrs =  [ x for x,a in crawlNo if x != None]
 
-print("\n".join( rstrs[-8:] ))
+result_md_table += f'{"\n".join( rstrs[-8:] )} \n'
 
 crawlNo = [ x for a,x in crawlNo if x != None]
 
@@ -72,7 +80,7 @@ beautify_print_str = [ list("-"*45) for _ in range(games)]
 final_selected = final_uniq[max_count_idx[:games]]
 final_selected_count = count[max_count_idx[:games]]
 for game_no in range(games):
-    print(final_selected[game_no], final_selected_count[game_no])
+    result_md_table += f'{final_selected[game_no], final_selected_count[game_no]}\n'
     for no in final_selected[game_no]:
         beautify_print_str[game_no][no-1] = "#"
     beautify_print_str[game_no] = "".join(beautify_print_str[game_no])
@@ -82,4 +90,11 @@ resultstr=[]
 for x in range(0,45,7):
     tt = " | ".join([f'{temp[x:x+7]:7}' for temp in beautify_print_str])
     resultstr.append(tt)
-print("\n".join(resultstr))
+result_md_table += f'{"\n".join(resultstr)}\n'
+print(result_md_table)
+access_token = os.environ['MY_GITHUB_TOKEN']
+repository_name = "lotto"
+    
+repo = get_github_repo(access_token, repository_name)
+upload_github_issue(repo, issue_title, result_md_table)
+    
