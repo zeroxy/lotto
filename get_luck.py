@@ -16,7 +16,7 @@ dday = (enddate - startdate).days
 
 result_md_table = ""
 
-result_md_table += f'{cpucnt}, {dday}, {dday//7)}\n'
+result_md_table += f'{cpucnt}, {dday}, {dday//7}\n'
 lasttime = dday//7 +2
 
 starttime = 1
