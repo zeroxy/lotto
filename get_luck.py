@@ -88,10 +88,10 @@ for game_no in range(games):
 #print(beautify_print_str)
 resultstr=[]
 for x in range(0,45,7):
-    tt = "  ".join([f'{temp[x:x+7]:7}' for temp in beautify_print_str])
+    tt = " | ".join([f'{temp[x:x+7]:7}' for temp in beautify_print_str])
     resultstr.append(tt)
 temp = "\n".join(resultstr)
-result_md_table += f'`{temp}`\n'
+result_md_table += f'```\n{temp}\n```'
 print(result_md_table)
 access_token = os.environ['MY_GITHUB_TOKEN']
 repository_name = "lotto"
