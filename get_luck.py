@@ -45,8 +45,8 @@ poolfn = delayed(get_lotto)
 crawlNo = multipool(poolfn(x) for x in range(starttime, lasttime) )
 
 rstrs =  [ x for x,a in crawlNo if x != None]
-
-result_md_table += f'{"\n".join( rstrs[-8:] )} \n'
+temp = "\n".join( rstrs[-8:] )
+result_md_table += f'{temp} \n'
 
 crawlNo = [ x for a,x in crawlNo if x != None]
 
@@ -90,11 +90,11 @@ resultstr=[]
 for x in range(0,45,7):
     tt = " | ".join([f'{temp[x:x+7]:7}' for temp in beautify_print_str])
     resultstr.append(tt)
-result_md_table += f'{"\n".join(resultstr)}\n'
+temp = "\n".join(resultstr)
+result_md_table += f'{temp}\n'
 print(result_md_table)
 access_token = os.environ['MY_GITHUB_TOKEN']
 repository_name = "lotto"
     
 repo = get_github_repo(access_token, repository_name)
 upload_github_issue(repo, issue_title, result_md_table)
-    
