@@ -62,14 +62,15 @@ recent_8_count = np.bincount(test[-8:,:].ravel(),minlength = 45)
 
 prob = np.ones(46)
 prob[recent_8_count>=3]=0
-prob[recent_8_count==2]=0.5
-
+prob[recent_8_count==2]=0.25
+prob[recent_8_count==1]=0.5
 prob[0] = 0
+
 prob = prob / np.sum(prob)
 
 #print(prob)
 
-final = np.stack([np.random.choice(46, 6, replace=False, p = prob) for x in range(30000)])
+final = np.stack([np.random.choice(46, 6, replace=False, p = prob) for x in range(games)])
 #print(np.sort(final[0])+1)
 
 final = np.sort(final, axis=1)
